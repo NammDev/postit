@@ -1,3 +1,4 @@
+import { UserAuthForm } from '@/components/auth/UserAuthForm'
 import { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -22,7 +23,7 @@ export default function LoginPage() {
             Enter your email to sign in to your account
           </p>
         </div>
-        {/* <UserAuthForm /> */}
+        <UserAuthForm />
         <p className='px-8 text-center text-sm text-muted-foreground'>
           <Link href='/register' className='hover:text-brand underline underline-offset-4'>
             Don&apos;t have an account? Sign Up
