@@ -10,7 +10,11 @@ function UserAccountNav({ user }: { user: IUser }) {
     <li className='flex gap-8 items-center'>
       <button
         className='bg-gray-700 text-white text-sm px-6 py-2 rounded-md '
-        onClick={() => signOut()}
+        onClick={() =>
+          signOut({
+            callbackUrl: `${window.location.origin}/login`,
+          })
+        }
       >
         Sign Out
       </button>
