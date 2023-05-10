@@ -1,10 +1,6 @@
-import { SiteFooter } from '@/components/footer'
 import '@/styles/globals.css'
 import { Inter as FontSans } from 'next/font/google'
 import localFont from 'next/font/local'
-import { getCurrentUser } from '@/lib/session'
-import Login from './auth/Login'
-import UserAccountNav from './auth/UserAccountNav'
 
 const fontSans = FontSans({
   subsets: ['latin'],
@@ -22,32 +18,12 @@ export const metadata = {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const user = await getCurrentUser()
-
   return (
     <html lang='en'>
       <body
         className={`min-h-screen bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
       >
-        <div className='flex min-h-screen flex-col'>
-          <header className='container z-40 bg-background'>
-            <div className='flex h-20 items-center justify-between py-6'>
-              {/* <MainNav items={marketingConfig.mainNav} /> */}
-              {!user && <Login />}
-              {user && (
-                <UserAccountNav
-                  user={{
-                    name: user?.name,
-                    image: user?.image,
-                    email: user?.email,
-                  }}
-                />
-              )}
-            </div>
-          </header>
-          <main className='flex-1'>{children}</main>
-          <SiteFooter />
-        </div>
+        {children}
       </body>
     </html>
   )
