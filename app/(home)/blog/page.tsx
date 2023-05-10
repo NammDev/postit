@@ -5,7 +5,7 @@ const ServerProtectedPage = async () => {
   const user = await getCurrentUser()
 
   if (!user) {
-    redirect('/login?from=/protected')
+    redirect('/login?from=/blog')
   }
 
   return (
