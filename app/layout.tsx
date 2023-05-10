@@ -1,3 +1,4 @@
+import AuthProvider from '@/components/auth/AuthProvider'
 import '@/styles/globals.css'
 import { Inter as FontSans } from 'next/font/google'
 import localFont from 'next/font/local'
@@ -23,7 +24,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body
         className={`min-h-screen bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   )
