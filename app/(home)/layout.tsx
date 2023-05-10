@@ -1,7 +1,7 @@
 import Login from '@/components/Nav/Login'
 import { MainNav } from '@/components/Nav/MainNav'
 import UserAccountNav from '@/components/Nav/UserAccountNav'
-import { SiteFooter } from '@/components/footer'
+import { SiteFooter } from '@/components/Nav/footer'
 import { marketingConfig } from '@/config/marketing'
 import { getCurrentUser } from '@/lib/session'
 

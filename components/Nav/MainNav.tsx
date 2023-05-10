@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useSelectedLayoutSegment } from 'next/navigation'
 import { siteConfig } from '@/config/site'
 import { MainNavItem } from '@/types/nav'
+import { Icons } from '../icon'
 
 interface MainNavProps {
   items?: MainNavItem[]
@@ -17,7 +18,7 @@ export function MainNav({ items }: MainNavProps) {
   return (
     <div className='flex gap-6 md:gap-10'>
       <Link href='/' className='hidden items-center space-x-2 md:flex'>
-        {/* <Icons.logo /> */}
+        <Icons.logo />
         <span className='hidden font-bold sm:inline-block'>{siteConfig.name}</span>
       </Link>
       {items?.length ? (

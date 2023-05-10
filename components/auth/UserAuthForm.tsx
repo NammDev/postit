@@ -2,6 +2,7 @@
 
 import { signIn } from 'next-auth/react'
 import { useSearchParams } from 'next/navigation'
+import { Icons } from '../icon'
 
 export function UserAuthForm() {
   const searchParams = useSearchParams()
@@ -32,7 +33,8 @@ export function UserAuthForm() {
           })
         }
       >
-        Google
+        <Icons.gitHub className='mr-2 h-4 w-4' />
+        Github
       </button>
     </div>
   )
