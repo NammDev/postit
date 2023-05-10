@@ -22,7 +22,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   return (
     <html lang='en'>
       <body
-        className={`min-h-screen bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
+        className={`min-h-screen dark bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
       >
         <AuthProvider>{children}</AuthProvider>
       </body>
