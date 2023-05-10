@@ -12,15 +12,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
         <div className='flex h-20 items-center justify-between py-6'>
           {/* <MainNav items={marketingConfig.mainNav} /> */}
           {!user && <Login />}
-          {user && (
-            <UserAccountNav
-              user={{
-                name: user?.name,
-                image: user?.image,
-                email: user?.email,
-              }}
-            />
-          )}
+          {user && <UserAccountNav user={user} />}
         </div>
       </header>
       <main className='flex-1'>{children}</main>
