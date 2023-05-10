@@ -1,4 +1,18 @@
+import { SiteFooter } from '@/components/footer'
 import '@/styles/globals.css'
+import Link from 'next/link'
+import { Inter as FontSans } from 'next/font/google'
+import localFont from 'next/font/local'
+
+const fontSans = FontSans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+})
+
+const fontHeading = localFont({
+  src: '../assets/fonts/CalSans-SemiBold.woff2',
+  variable: '--font-heading',
+})
 
 export const metadata = {
   title: 'Create Next App',
@@ -8,7 +22,27 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang='en'>
-      <body>{children}</body>
+      <body
+        className={`min-h-screen bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
+      >
+        <div className='flex min-h-screen flex-col'>
+          <header className='container z-40 bg-background'>
+            <div className='flex h-20 items-center justify-between py-6'>
+              {/* <MainNav items={marketingConfig.mainNav} /> */}
+              <nav>
+                <Link
+                  href='/login'
+                  // className={cn(buttonVariants({ variant: 'secondary', size: 'sm' }), 'px-4')}
+                >
+                  Login
+                </Link>
+              </nav>
+            </div>
+          </header>
+          <main className='flex-1'>{children}</main>
+          <SiteFooter />
+        </div>
+      </body>
     </html>
   )
 }

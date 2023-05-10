@@ -1,3 +1,12 @@
 export default function Home() {
-  return <main className='text-3xl'>Hello</main>
+  return (
+    <main>
+      <div>
+        <h1 className='font-heading'>Whatsap</h1>
+      </div>
+      <div>
+        <p>Du me </p>
+      </div>
+    </main>
+  )
 }
