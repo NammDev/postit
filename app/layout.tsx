@@ -1,3 +1,4 @@
+import QueryWrapper from '@/components/QueryWrapper'
 import AuthProvider from '@/components/auth/AuthProvider'
 import { siteConfig } from '@/config/site'
 import '@/styles/globals.css'
@@ -61,7 +62,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body
         className={`min-h-screen dark bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
       >
-        <AuthProvider>{children}</AuthProvider>
+        <QueryWrapper>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryWrapper>
       </body>
     </html>
   )
