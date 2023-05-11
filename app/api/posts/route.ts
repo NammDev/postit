@@ -9,6 +9,37 @@ const postCreateSchema = z.object({
   content: z.string().optional(),
 })
 
+export async function GET() {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      return new Response('Unauthorized', { status: 403 })
+    }
+
+    // Get User
+    const prismaUser = await prisma.user.findUnique({
+      where: { email: session?.user?.email || '' },
+    })
+
+    const posts = await prisma.post.findMany({
+      select: {
+        id: true,
+        title: true,
+        published: true,
+        createdAt: true,
+      },
+      where: {
+        authorId: prismaUser?.id,
+      },
+    })
+
+    return new Response(JSON.stringify(posts))
+  } catch (error) {
+    return new Response(null, { status: 500 })
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const session = await getServerSession(authOptions)

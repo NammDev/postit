@@ -3,6 +3,8 @@
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
 import { Icons } from '../icon'
+import { useMutation } from '@tanstack/react-query'
+import axios from 'axios'
 
 interface PostCreateButtonProps {
   variant: 'default' | 'outline'
@@ -10,25 +12,22 @@ interface PostCreateButtonProps {
 
 export function PostCreateButton({ variant }: PostCreateButtonProps) {
   const router = useRouter()
-  const [isLoading, setIsLoading] = React.useState<boolean>(false)
 
-  async function onClick() {
-    setIsLoading(true)
-    const response = await fetch('/api/posts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async () =>
+      await axios.post('/api/posts', {
         title: 'Untitled Post',
       }),
-    })
-    const post = await response.json()
-    setIsLoading(false)
+    onSuccess: (data) => {
+      // This forces a cache invalidation.
+      router.refresh()
+      router.push(`/editor/${data.data.id}`)
+    },
+    onError: (data) => {},
+  })
 
-    // This forces a cache invalidation.
-    router.refresh()
-    router.push(`/editor/${post.id}`)
+  async function onClick() {
+    mutate()
   }
 
   return (
