@@ -22,22 +22,27 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@ui/alert-dialog'
-import { useRouter } from 'next/navigation'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import axios from 'axios'
 
 export function PostOperations({ post }: { post: Pick<Post, 'id' | 'title'> }) {
-  const router = useRouter()
+  const queryClient = useQueryClient()
 
   const [showDeleteAlert, setShowDeleteAlert] = useState(false)
-  const [isDeleteLoading, setIsDeleteLoading] = useState(false)
+
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (postId: string) => {
+      await axios.delete(`/api/posts/${postId}`)
+    },
+    onSuccess: (data) => {
+      setShowDeleteAlert(false)
+      queryClient.invalidateQueries(['posts'])
+    },
+  })
 
   async function onClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-    // setIsDeleteLoading(true)
-    // const deleted = await deletePost(post.id)
-    // if (deleted) {
-    //   setIsDeleteLoading(false)
-    //   setShowDeleteAlert(false)
-    //   router.refresh()
-    // }
+    e.preventDefault()
+    mutate(post.id)
   }
 
   return (
@@ -74,7 +79,7 @@ export function PostOperations({ post }: { post: Pick<Post, 'id' | 'title'> }) {
               onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => onClick(e)}
               className='bg-red-600 focus:ring-red-600'
             >
-              {isDeleteLoading ? (
+              {isLoading ? (
                 <Icons.spinner className='mr-2 h-4 w-4 animate-spin' />
               ) : (
                 <Icons.trash className='mr-2 h-4 w-4' />

@@ -9,11 +9,11 @@ import { PostItem } from './Posttem'
 
 function Dashboard() {
   const { data: posts } = useQuery<Post[]>({
+    queryKey: ['posts'],
     queryFn: async () => {
       const response = await axios.get('/api/posts')
       return response.data
     },
-    queryKey: ['posts'],
   })
 
   return (
