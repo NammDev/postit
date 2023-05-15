@@ -28,7 +28,7 @@ async function verifyCurrentUserHasAccessToPost(postId: string) {
   return count > 0
 }
 
-export async function DELETE(context: z.infer<typeof routeContextSchema>) {
+export async function DELETE(req: Request, context: z.infer<typeof routeContextSchema>) {
   try {
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
