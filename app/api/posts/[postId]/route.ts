@@ -9,6 +9,13 @@ const routeContextSchema = z.object({
   }),
 })
 
+const postPatchSchema = z.object({
+  title: z.string().min(3).max(128).optional(),
+
+  // TODO: Type this properly from editorjs block types?
+  content: z.any().optional(),
+})
+
 async function verifyCurrentUserHasAccessToPost(postId: string) {
   const session = await getServerSession(authOptions)
   const count = await prisma.post.count({
@@ -21,7 +28,7 @@ async function verifyCurrentUserHasAccessToPost(postId: string) {
   return count > 0
 }
 
-export async function DELETE(req: Request, context: z.infer<typeof routeContextSchema>) {
+export async function DELETE(context: z.infer<typeof routeContextSchema>) {
   try {
     // Validate the route params.
     const { params } = routeContextSchema.parse(context)
@@ -44,6 +51,41 @@ export async function DELETE(req: Request, context: z.infer<typeof routeContextS
       return new Response(JSON.stringify(error.issues), { status: 422 })
     }
 
+    return new Response(null, { status: 500 })
+  }
+}
+
+export async function PATCH(req: Request, context: z.infer<typeof routeContextSchema>) {
+  try {
+    // Validate route params
+    const { params } = routeContextSchema.parse(context)
+
+    // Check if the user has access to this post.
+    if (!(await verifyCurrentUserHasAccessToPost(params.postId))) {
+      return new Response(null, { status: 403 })
+    }
+
+    // Get the request body and validate it
+    const json = await req.json()
+    const body = postPatchSchema.parse(json)
+
+    // Update the post
+    await prisma.post.update({
+      where: {
+        id: params.postId,
+      },
+      data: {
+        title: body.title,
+        content: body.content,
+      },
+    })
+
+    // Return value
+    return new Response(null, { status: 200 })
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(JSON.stringify(error.issues), { status: 422 })
+    }
     return new Response(null, { status: 500 })
   }
 }
