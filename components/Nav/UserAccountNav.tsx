@@ -4,34 +4,65 @@ import { IUser } from '@/types/user'
 import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@ui/dropdown-menu'
 
 function UserAccountNav({ user }: { user: IUser }) {
   return (
-    <li className='flex gap-4 items-center'>
-      <button
-        className='inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background h-9 px-4 bg-secondary text-secondary-foreground hover:bg-secondary/80'
-        onClick={() =>
-          signOut({
-            callbackUrl: `${window.location.origin}/login`,
-          })
-        }
-      >
-        Sign Out
-      </button>
-      <Link
-        href={'/dashboard'}
-        className='relative flex shrink-0 overflow-hidden rounded-full h-8 w-8'
-      >
-        <Image
-          width={64}
-          height={64}
-          className='w-14 rounded-full'
-          src={user.image}
-          alt=''
-          priority
-        />
-      </Link>
-    </li>
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <Link
+          href={'/dashboard'}
+          className='relative flex shrink-0 overflow-hidden rounded-full h-8 w-8'
+        >
+          <Image
+            width={64}
+            height={64}
+            className='w-14 rounded-full'
+            src={user.image}
+            alt=''
+            priority
+          />
+        </Link>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align='end'>
+        <div className='flex items-center justify-start gap-2 p-2'>
+          <div className='flex flex-col space-y-1 leading-none'>
+            {user.name && <p className='font-medium'>{user.name}</p>}
+            {user.email && (
+              <p className='w-[200px] truncate text-sm text-muted-foreground'>{user.email}</p>
+            )}
+          </div>
+        </div>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem asChild>
+          <Link href='/dashboard'>Dashboard</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href='/dashboard/billing'>Billing</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href='/dashboard/settings'>Settings</Link>
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem
+          className='cursor-pointer'
+          onSelect={(event) => {
+            event.preventDefault()
+            signOut({
+              callbackUrl: `${window.location.origin}/login`,
+            })
+          }}
+        >
+          Sign out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 

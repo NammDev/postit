@@ -24,6 +24,7 @@ import {
 } from '@ui/alert-dialog'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
+import { toast } from '../toast/use-toast'
 
 export function PostOperations({ post }: { post: Pick<Post, 'id' | 'title'> }) {
   const queryClient = useQueryClient()
@@ -37,6 +38,13 @@ export function PostOperations({ post }: { post: Pick<Post, 'id' | 'title'> }) {
     onSuccess: (data) => {
       setShowDeleteAlert(false)
       queryClient.invalidateQueries(['posts'])
+    },
+    onError: () => {
+      toast({
+        title: 'Something went wrong.',
+        description: 'Your post was not deleted. Please try again.',
+        variant: 'destructive',
+      })
     },
   })
 

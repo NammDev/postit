@@ -1,5 +1,6 @@
 import QueryWrapper from '@/components/QueryWrapper'
 import AuthProvider from '@/components/auth/AuthProvider'
+import { Toaster } from '@/components/toast/toaster'
 import { siteConfig } from '@/config/site'
 import '@/styles/globals.css'
 import { Inter as FontSans } from 'next/font/google'
@@ -63,7 +64,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         className={`min-h-screen dark bg-background font-sans antialiased ${fontSans.variable} ${fontHeading.variable}`}
       >
         <QueryWrapper>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
         </QueryWrapper>
       </body>
     </html>
