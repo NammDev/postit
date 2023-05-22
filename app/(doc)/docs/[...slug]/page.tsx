@@ -1,6 +1,12 @@
 import { notFound } from 'next/navigation'
 import { allDocs } from 'contentlayer/generated'
 
+// import { getTableOfContents } from '@/lib/toc'
+// import { Mdx } from '@/components/mdx-components'
+// import { DocsPageHeader } from '@/components/page-header'
+// import { DocsPager } from '@/components/pager'
+// import { DashboardTableOfContents } from '@/components/toc'
+
 import '@/styles/mdx.css'
 import { Metadata } from 'next'
 
@@ -72,13 +78,13 @@ export async function generateStaticParams(): Promise<DocPageProps['params'][]> 
 
 export default async function DocPage({ params }: DocPageProps) {
   const doc = await getDocFromParams(params)
+  console.log('123')
 
   if (!doc) {
-    console.log('s')
     notFound()
   }
 
-  //   const toc = await getTableOfContents(doc.body.raw)
+  // const toc = await getTableOfContents(doc.body.raw)
 
   return (
     <main className='relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_300px]'>

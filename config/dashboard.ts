@@ -4,7 +4,7 @@ export const dashboardConfig: DashboardConfig = {
   mainNav: [
     {
       title: 'Documentation',
-      href: '/docs',
+      href: '/docs/started',
     },
     {
       title: 'Support',
