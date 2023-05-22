@@ -11,3 +11,7 @@ export function formatDate(input: string | number): string {
 }
 
 export const cn = (...classes: ClassValue[]) => twMerge(clsx(...classes))
+
+export function absoluteUrl(path: string) {
+  return `${process.env.NEXT_PUBLIC_APP_URL}${path}`
+}
