@@ -1,16 +1,14 @@
 import { notFound } from 'next/navigation'
 import { allDocs } from 'contentlayer/generated'
 
-// import { getTableOfContents } from '@/lib/toc'
-// import { DocsPager } from '@/components/pager'
-// import { DashboardTableOfContents } from '@/components/toc'
-
 import '@/styles/mdx.css'
 import { Metadata } from 'next'
 
 import { absoluteUrl } from '@/lib/utils'
 import { Mdx } from '@/components/mdx/mdx-components'
 import { DocsPageHeader } from '@/components/docs/page-header'
+import { DashboardTableOfContents } from '@/components/docs/table-content'
+import { getTableOfContents } from '@/lib/toc'
 
 interface DocPageProps {
   params: {
@@ -82,7 +80,7 @@ export default async function DocPage({ params }: DocPageProps) {
     notFound()
   }
 
-  // const toc = await getTableOfContents(doc.body.raw)
+  const toc = await getTableOfContents(doc.body.raw)
 
   return (
     <main className='relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_300px]'>
@@ -94,7 +92,7 @@ export default async function DocPage({ params }: DocPageProps) {
       </div>
       <div className='hidden text-sm xl:block'>
         <div className='sticky top-16 -mt-10 max-h-[calc(var(--vh)-4rem)] overflow-y-auto pt-10'>
-          {/* <DashboardTableOfContents toc={toc} /> */}
+          <DashboardTableOfContents toc={toc} />
         </div>
       </div>
     </main>
