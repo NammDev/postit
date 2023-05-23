@@ -2,8 +2,6 @@ import { notFound } from 'next/navigation'
 import { allDocs } from 'contentlayer/generated'
 
 // import { getTableOfContents } from '@/lib/toc'
-// import { Mdx } from '@/components/mdx-components'
-// import { DocsPageHeader } from '@/components/page-header'
 // import { DocsPager } from '@/components/pager'
 // import { DashboardTableOfContents } from '@/components/toc'
 
@@ -12,6 +10,7 @@ import { Metadata } from 'next'
 
 import { absoluteUrl } from '@/lib/utils'
 import { Mdx } from '@/components/mdx/mdx-components'
+import { DocsPageHeader } from '@/components/docs/page-header'
 
 interface DocPageProps {
   params: {
@@ -78,7 +77,6 @@ export async function generateStaticParams(): Promise<DocPageProps['params'][]> 
 
 export default async function DocPage({ params }: DocPageProps) {
   const doc = await getDocFromParams(params)
-  console.log('123')
 
   if (!doc) {
     notFound()
@@ -89,7 +87,7 @@ export default async function DocPage({ params }: DocPageProps) {
   return (
     <main className='relative py-6 lg:gap-10 lg:py-10 xl:grid xl:grid-cols-[1fr_300px]'>
       <div className='w-full min-w-0 mx-auto'>
-        {/* <DocsPageHeader heading={doc.title} text={doc.description} /> */}
+        <DocsPageHeader heading={doc.title} text={doc.description} />
         <Mdx code={doc.body.code} />
         <hr className='my-4 md:my-6' />
         {/* <DocsPager doc={doc} /> */}
